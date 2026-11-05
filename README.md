@@ -56,6 +56,43 @@ suivi d'un `composer update`.
 
 ## Installation du contrôleur
 
+    php bin/console make:controller
 
+Ce qui donne
 
+```bash
+php bin/console make:controller
 
+ Choose a name for your controller class (e.g. VictoriousGnomeController):
+ > PublicController
+
+ Do you want to generate PHPUnit tests? [Experimental] (yes/no) [no]:
+ >
+
+ created: src/Controller/PublicController.php
+ created: templates/public/index.html.twig
+```
+
+Changement de la page d'accueil `src/Controller/PublicController.php`
+
+```php
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+
+final class PublicController extends AbstractController
+{
+    #[Route('/', name: 'homepage')]
+    public function index(): Response
+    {
+        return $this->render('public/index.html.twig', [
+            'controller_name' => 'PublicController',
+        ]);
+    }
+}
+
+```
