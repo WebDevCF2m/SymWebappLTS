@@ -28,11 +28,34 @@ Chemin Windows : `//wsl.localhost/Ubuntu/home/formaweb/SymWebappLTS`
 ### Version de l'installation sous Windows
 
 - git (`//wsl.localhost/Ubuntu/home/formaweb/SymWebappLTS`)
-- docker (avec activation de WSL sur Ubuntu)
+- docker (avec `activation de WSL sur Ubuntu`)
 
 ### Vérification de l'installation
 
     symfony check-requirement
 
 Ajoutez des bibliothèques et/ou changez le php.ini 
+
+### Vérification de sécurité
+
+    composer audit (bibliothèques)
+    symfony check:security (le tout)
+
+suivi d'un `composer update`.
+
+## Démarrage / arrêt
+
+    # Démarrage
+    symfony server:start (la fenêtre affiche les logs) 
+    # ou
+    symfony serve -d
+
+    # Arrêt
+    symfony server:stop
+
+
+## Installation du contrôleur
+
+
+
 
