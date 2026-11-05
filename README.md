@@ -24,6 +24,8 @@ Chemin Windows : `//wsl.localhost/Ubuntu/home/formaweb/SymWebappLTS`
 - Symfony 5.22.2 | https://symfony.com/download
 - Composer 2.11.1 | https://getcomposer.org/download/
 - Node.js 22.22.1 (sudo apt install nodejs)
+- MariaDB
+- PhpMyAdmin
 
 ### Version de l'installation sous Windows
 
@@ -95,4 +97,46 @@ final class PublicController extends AbstractController
     }
 }
 
+```
+
+## .env
+
+Fichier qui est envoyé sur git, le fichier en production se nommera `.env.local` et contiendra les vrais mots de passes, url et services.
+
+Il ne sera pas donné ni à github, ni l'IA.
+
+On va utiliser `mariadb` plutôt que `postgre`
+
+```bash
+DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:3306/app?serverVersion=10.11.2-MariaDB&charset=utf8mb4"
+# DATABASE_URL="postgresql://app:!ChangeMe!@127.0.0.1:5432/app?serverVersion=16&charset=utf8"
+```
+
+### Installation de MariaDB
+
+
+Sous WSL
+
+```bash
+sudo apt update 
+sudo apt install mariadb-server
+sudo service mariadb start
+sudo mysql
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'VOTRE_MOT_DE_PASSE'; 
+GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES; 
+exit;
+sudo apt install phpmyadmin php-mbstring php-zip php-gd php-json php-curl
+sudo service apache2 start
+sudo ss -tulpn | grep -E ':(80|443)\b'
+sudo apache2ctl configtest
+sudo nano /etc/apache2/ports.conf
+sudo nano /etc/apache2/sites-enabled/000-default.conf
+sudo killall apache2
+sudo systemctl start apache2
+ 
+sudo systemctl status apache2
+hostname -I
+sudo ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf-enabled/phpmyadmin.conf 
+sudo systemctl reload apache2
+http://VOTRE_IP_WSL/phpmyadmin
 ```
