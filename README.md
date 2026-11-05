@@ -24,8 +24,8 @@ Chemin Windows : `//wsl.localhost/Ubuntu/home/formaweb/SymWebappLTS`
 - Symfony 5.22.2 | https://symfony.com/download
 - Composer 2.11.1 | https://getcomposer.org/download/
 - Node.js 22.22.1 (sudo apt install nodejs)
-- MariaDB
-- PhpMyAdmin
+- MariaDB 11.8.6
+- PhpMyAdmin 5.2.3
 
 ### Version de l'installation sous Windows
 
@@ -122,10 +122,12 @@ sudo apt update
 sudo apt install mariadb-server
 sudo service mariadb start
 sudo mysql
-CREATE USER 'admin'@'localhost' IDENTIFIED BY 'VOTRE_MOT_DE_PASSE'; 
-GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES; 
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'VOTRE_MOT_DE_PASSE'; # admin : formaweb
+GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION; 
+FLUSH PRIVILEGES; 
 exit;
 sudo apt install phpmyadmin php-mbstring php-zip php-gd php-json php-curl
+# choisissez apache2 / yes / ok / ok /ok
 sudo service apache2 start
 sudo ss -tulpn | grep -E ':(80|443)\b'
 sudo apache2ctl configtest
@@ -140,3 +142,17 @@ sudo ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf-enabled/phpmyadmin.conf
 sudo systemctl reload apache2
 http://VOTRE_IP_WSL/phpmyadmin
 ```
+
+## Création de la DB
+
+Dans `.env` on mets les paramètres 
+
+        DATABASE_URL="mysql://admin:formaweb@localhost:3306/sym_74_lts?serverVersion=11.8.6-MariaDB&charset=utf8mb4"
+
+et puis on crée la base de donnée `sym_74_lts`:
+
+```bash
+php bin/console doctrine:database:create
+```
+
+et vous pouvez la voir dans PHPMyAdmin
